@@ -160,3 +160,15 @@ variable "throughput_capacity" {
     error_message = "Throughput capacity must be one of 128, 256, 512, 1024, 2048, 4096"
   }
 }
+
+variable "default_ad" {
+  type = object({
+    dns_ips                                = optional(list(string)),
+    domain_name                            = optional(string),
+    password                               = optional(string),
+    username                               = optional(string),
+    file_system_administrators_group       = optional(string),
+    organizational_unit_distinguished_name = optional(string),
+  })
+  default = {}
+}

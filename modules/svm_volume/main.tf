@@ -6,14 +6,14 @@ resource "aws_fsx_ontap_storage_virtual_machine" "this" {
   dynamic "active_directory_configuration" {
     for_each = var.enable_active_directory_configuration == false ? [] : [1]
     content {
-      netbios_name = var.netbios_name
+      netbios_name = var.netbios_name == null ? var.svm_name : var.netbios_name
       self_managed_active_directory_configuration {
-        dns_ips                                = var.dns_ips
-        domain_name                            = var.domain_name
-        password                               = var.password
-        username                               = var.username
-        file_system_administrators_group       = var.file_system_administrators_group
-        organizational_unit_distinguished_name = var.organizational_unit_distinguished_name
+        dns_ips                                = var.dns_ips == null ? var.default_ad["dns_ips"] : var.dns_ips
+        domain_name                            = var.domain_name == null ? var.default_ad["domain_name"] : var.domain_name
+        password                               = var.password == null ? var.default_ad["password"] : var.password
+        username                               = var.username == null ? var.default_ad["username"] : var.username
+        file_system_administrators_group       = var.file_system_administrators_group == null ? var.default_ad["file_system_administrators_group"] : var.file_system_administrators_group
+        organizational_unit_distinguished_name = var.organizational_unit_distinguished_name == null ? var.default_ad["organizational_unit_distinguished_name"] : var.organizational_unit_distinguished_name
       }
     }
   }

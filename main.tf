@@ -59,4 +59,5 @@ module "svm_volume" {
   organizational_unit_distinguished_name = each.value.organizational_unit_distinguished_name
   vol_map                                = each.value.vol_map
   enable_active_directory_configuration  = each.value.enable_active_directory_configuration
+  default_ad                             = var.default_ad
 }

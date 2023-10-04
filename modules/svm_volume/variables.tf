@@ -18,7 +18,7 @@ variable "tags" {
 }
 variable "netbios_name" {
   type        = string
-  description = "(Required) The NetBIOS name of the Active Directory computer object that will be created for your SVM. This is often the same as the SVM name but can be different. AWS limits to 15 characters because of standard NetBIOS naming limits."
+  description = "(Optional) The NetBIOS name of the Active Directory computer object that will be created for your SVM. This is often the same as the SVM name but can be different. AWS limits to 15 characters because of standard NetBIOS naming limits."
   default     = null
 }
 variable "dns_ips" {
@@ -28,13 +28,13 @@ variable "dns_ips" {
 }
 variable "domain_name" {
   type        = string
-  description = "(Required) The fully qualified domain name of the self-managed AD directory. For example, corp.example.com."
+  description = "(Optional) The fully qualified domain name of the self-managed AD directory. For example, corp.example.com."
   default     = null
 }
 variable "password" {
   type        = string
   sensitive   = true
-  description = "(Required) The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain."
+  description = "(Optional) The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain."
   default     = null
 }
 variable "username" {
@@ -70,4 +70,16 @@ variable "enable_active_directory_configuration" {
   description = "(Optional) Boolean to enable the configuration of active directory settings on storage virtual machines: Netbios, DNS IPs, Domain Name, etc"
   //TODO
   default = false
+}
+
+variable "default_ad" {
+  type = object({
+    dns_ips                                = optional(list(string)),
+    domain_name                            = optional(string),
+    password                               = optional(string),
+    username                               = optional(string),
+    file_system_administrators_group       = optional(string),
+    organizational_unit_distinguished_name = optional(string),
+  })
+  default = {}
 }
